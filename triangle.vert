@@ -8,8 +8,7 @@ uniform float x;
 out vec4 output_color;
 
 void main() {
-    gl_Position = vec4(position, 0.0, 1.0);
-    gl_Position.w *= 1.0 / 1.0 + pow(E, -x);
+    gl_Position = vec4(position, 0.0, 1.0 / 1.0 + pow(E, -x));
 
     output_color = vec4(color, 1.0);
 }
