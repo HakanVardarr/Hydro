@@ -24,8 +24,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let first_program = glium::Program::from_source(
         &display,
-        include_str!("../shaders/triangle1.vert"),
-        include_str!("../shaders/triangle1.frag"),
+        include_str!("../shaders/2.vert"),
+        include_str!("../shaders/2_1.frag"),
         None,
     )
     .unwrap();
@@ -42,8 +42,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let second_program = glium::Program::from_source(
         &display,
-        include_str!("../shaders/triangle1.vert"),
-        include_str!("../shaders/triangle2.frag"),
+        include_str!("../shaders/2.vert"),
+        include_str!("../shaders/2_2.frag"),
         None,
     )
     .unwrap();

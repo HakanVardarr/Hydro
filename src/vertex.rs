@@ -1,15 +1,15 @@
+#![allow(non_snake_case)]
 use glium::implement_vertex;
 
 #[derive(Copy, Clone)]
 pub struct Vertex {
-    position: [f32; 2],
-    color: [f32; 3],
+    aPos: [f32; 3],
 }
 
 impl Vertex {
-    pub fn new(position: [f32; 2], color: [f32; 3]) -> Self {
-        Self { position, color }
+    pub fn new(aPos: [f32; 3]) -> Self {
+        Self { aPos }
     }
 }
 
-implement_vertex!(Vertex, position, color);
+implement_vertex!(Vertex, aPos);
