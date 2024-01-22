@@ -74,6 +74,8 @@ impl<T: Copy + glium::Vertex, I: Index> Shader<T, I> {
                     &params,
                 )
                 .unwrap();
+        } else {
+            panic!()
         }
     }
 }
