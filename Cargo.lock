@@ -110,6 +110,7 @@ version = "0.1.0"
 dependencies = [
  "gl",
  "glfw",
+ "stb_image",
 ]
 
 [[package]]
@@ -117,6 +118,16 @@ name = "raw-window-handle"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2ff9a1f06a88b01621b7ae906ef0211290d1c8a168a15542486a8f61c0833b9"
+
+[[package]]
+name = "stb_image"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bfdaa89eb7dd3362e4abb16c4a8acf04786755882b38ff00714f2f1de0f4fcd3"
+dependencies = [
+ "cc",
+ "libc",
+]
 
 [[package]]
 name = "winapi"
