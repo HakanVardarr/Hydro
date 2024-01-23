@@ -1,5 +1,4 @@
 #![allow(non_snake_case, dead_code)]
-
 extern crate gl;
 extern crate glfw;
 
