@@ -1,1 +1,3 @@
-pub mod shader;
+mod window;
+
+pub use window::Window;
