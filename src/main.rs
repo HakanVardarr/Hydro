@@ -1,42 +1,53 @@
-use gl::COLOR_BUFFER_BIT;
+use hydro::core::{Events, Window};
+use hydro::graphics::*;
+use hydro::reexports::*;
 
-use glfw::{Action, Key, WindowEvent};
+#[rustfmt::skip]
+const VERTICES: [gl::types::GLfloat; 12] = [
+    -0.5, -0.5, 0.0, 
+     0.5, -0.5, 0.0, 
+    -0.5,  0.5, 0.0,
+     0.5,  0.5, 0.0, 
+];
 
-use hydro::Window;
+#[rustfmt::skip]
+const INDICIES: [gl::types::GLuint; 6] = [
+    0, 1, 2,
+    1, 2, 3,
+];
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (mut window, events) = Window::new(800, 600, "Hydro");
 
-    unsafe {
-        gl::ClearColor(1.0, 1.0, 1.0, 1.0);
-    }
+    let shader = Shader::new("./shaders/main.vert", "./shaders/main.frag")?;
+    let vertex_buffer = VertexBuffer::new(&VERTICES);
+    let vertex_array = VertexArray::new(&vertex_buffer, &[3]);
+    let index_buffer = IndexBuffer::new(&INDICIES);
+
+    Renderer::clear_color(0.05, 0.0, 0.18, 1.0);
 
     while !window.should_close() {
+        window.poll_events();
         handle_events(&mut window, &events);
 
-        unsafe {
-            gl::Clear(COLOR_BUFFER_BIT);
-        }
+        Renderer::polygon_mode(gl::FRONT_AND_BACK, gl::LINE);
 
-        window.poll_events();
+        Renderer::clear();
+
+        Renderer::draw(&shader, &vertex_array, &index_buffer);
+
         window.swap_buffers();
     }
+
+    Ok(())
 }
 
-fn handle_events(window: &mut Window, events: &glfw::GlfwReceiver<(f64, WindowEvent)>) {
-    for (_, event) in glfw::flush_messages(events) {
+fn handle_events(window: &mut Window, events: &Events) {
+    for (_, event) in events.flush() {
         match event {
             WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
                 window.set_should_close(true);
             }
-            WindowEvent::CursorPos(x, y) => unsafe {
-                gl::ClearColor(
-                    (x / 800.0) as f32,
-                    (y / 800.0) as f32,
-                    (x / 800.0 / 2.0 + y / 600.0 / 2.0) as f32,
-                    1.0,
-                );
-            },
             _ => {}
         }
     }
