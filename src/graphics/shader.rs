@@ -1,4 +1,4 @@
-use gl::types::{GLchar, GLint, GLuint};
+use gl::types::{GLchar, GLfloat, GLint, GLuint};
 use std::{ffi::CString, fs::File, io::Read};
 use thiserror::Error;
 
@@ -194,6 +194,59 @@ impl Shader {
         unsafe {
             gl::UseProgram(0);
         }
+    }
+
+    /// `set_bool` is a function that sets a boolean uniform value for the Shader.
+    ///
+    /// # Parameters
+    ///
+    /// * `name`: A string slice that holds the name of the uniform variable in the shader.
+    /// * `value`: A boolean value to be set for the uniform variable.
+    ///
+    /// # Safety
+    ///
+    /// This function is marked as unsafe because it calls unsafe OpenGL functions.
+    pub fn set_bool(&self, name: &str, value: bool) {
+        let c_str = CString::new(name.to_string()).unwrap();
+
+        unsafe {
+            gl::Uniform1i(
+                gl::GetUniformLocation(self.id, c_str.as_ptr()),
+                value as i32,
+            )
+        }
+    }
+
+    /// `set_int` is a function that sets an integer uniform value for the Shader.
+    ///
+    /// # Parameters
+    ///
+    /// * `name`: A string slice that holds the name of the uniform variable in the shader.
+    /// * `value`: An integer value to be set for the uniform variable.
+    ///
+    /// # Safety
+    ///
+    /// This function is marked as unsafe because it calls unsafe OpenGL functions.
+    pub fn set_int(&self, name: &str, value: GLint) {
+        let c_str = CString::new(name.to_string()).unwrap();
+
+        unsafe { gl::Uniform1i(gl::GetUniformLocation(self.id, c_str.as_ptr()), value) }
+    }
+
+    /// `set_float` is a function that sets a floating-point uniform value for the Shader.
+    ///
+    /// # Parameters
+    ///
+    /// * `name`: A string slice that holds the name of the uniform variable in the shader.
+    /// * `value`: A floating-point value to be set for the uniform variable.
+    ///
+    /// # Safety
+    ///
+    /// This function is marked as unsafe because it calls unsafe OpenGL functions.
+    pub fn set_float(&self, name: &str, value: GLfloat) {
+        let c_str = CString::new(name.to_string()).unwrap();
+
+        unsafe { gl::Uniform1f(gl::GetUniformLocation(self.id, c_str.as_ptr()), value) }
     }
 }
 

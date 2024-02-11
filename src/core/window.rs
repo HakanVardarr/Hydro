@@ -12,7 +12,7 @@ impl Window {
     /// Constructs a new `Window` and its associated `Events`.
     /// The window is created with the specified `width`, `height`, and `title`.
     /// The OpenGL context is also set up within this method.
-    pub fn new(width: u32, height: u32, title: &str) -> (Self, Events) {
+    pub fn new(width: u32, height: u32, title: &str, fullscreen: bool) -> (Self, Events) {
         use glfw::fail_on_errors;
 
         let mut glfw = glfw::init(fail_on_errors!()).unwrap();
@@ -24,8 +24,21 @@ impl Window {
         glfw.window_hint(glfw::WindowHint::Resizable(false));
 
         let (mut window, events) = glfw
-            .create_window(width, height, title, glfw::WindowMode::Windowed)
-            .unwrap();
+            .with_primary_monitor(|glfw, m| {
+                if fullscreen {
+                    glfw.create_window(
+                        width,
+                        height,
+                        title,
+                        m.map_or(glfw::WindowMode::Windowed, |m| {
+                            glfw::WindowMode::FullScreen(m)
+                        }),
+                    )
+                } else {
+                    glfw.create_window(width, height, title, glfw::WindowMode::Windowed)
+                }
+            })
+            .expect("Failed to create GLFW window");
 
         window.make_current();
         window.set_all_polling(true);
@@ -63,5 +76,9 @@ impl Window {
     /// `value`: `true` if the window should close, `false` otherwise.
     pub fn set_should_close(&mut self, value: bool) {
         self.window.set_should_close(value)
+    }
+
+    pub fn get_time(&self) -> f64 {
+        self.glfw.get_time()
     }
 }

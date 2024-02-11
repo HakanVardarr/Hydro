@@ -1,10 +1,16 @@
 #version 330 core
 
-in vec3 col;
+in vec2 texCoord;
 
 out vec4 FragColor;
 
+uniform float time;
+
+uniform sampler2D containerTex;
+uniform sampler2D faceTex;
+uniform sampler2D crocodileTex;
+
 void main()
 {
-    FragColor = vec4(0.0, 0.5, 0.7, 1.0f);
+    FragColor = texture(crocodileTex, texCoord);
 } 

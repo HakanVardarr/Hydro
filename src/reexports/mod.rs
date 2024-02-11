@@ -1,3 +1,4 @@
+pub use gl::types::*;
 pub use glfw::Action;
 pub use glfw::Key;
 pub use glfw::Modifiers;

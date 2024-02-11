@@ -3,36 +3,43 @@ use hydro::graphics::*;
 use hydro::reexports::*;
 
 #[rustfmt::skip]
-const VERTICES: [gl::types::GLfloat; 12] = [
-    -0.5, -0.5, 0.0, 
-     0.5, -0.5, 0.0, 
-    -0.5,  0.5, 0.0,
-     0.5,  0.5, 0.0, 
+const VERTICES: [GLfloat; 20] = [
+     0.5,  0.5, 0.0, 1.0, 1.0,
+     0.5, -0.5, 0.0, 1.0, 0.0,
+    -0.5, -0.5, 0.0, 0.0, 0.0,
+    -0.5,  0.5, 0.0, 0.0, 1.0,
 ];
 
 #[rustfmt::skip]
-const INDICIES: [gl::types::GLuint; 6] = [
-    0, 1, 2,
+const INDICIES: [GLuint; 6] = [
+    0, 1, 3,
     1, 2, 3,
 ];
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (mut window, events) = Window::new(800, 600, "Hydro");
+    let (mut window, events) = Window::new(800, 600, "Tolga", false);
+
+    let crocodile = Texture::new("./assets/crocodile.jpg")?;
 
     let shader = Shader::new("./shaders/main.vert", "./shaders/main.frag")?;
     let vertex_buffer = VertexBuffer::new(&VERTICES);
-    let vertex_array = VertexArray::new(&vertex_buffer, &[3]);
+    let vertex_array = VertexArray::new(&vertex_buffer, &[3, 2]);
     let index_buffer = IndexBuffer::new(&INDICIES);
 
-    Renderer::clear_color(0.05, 0.0, 0.18, 1.0);
+    Renderer::clear_color(0.0, 0.0, 0.0, 1.0);
+    Renderer::polygon_mode(gl::FRONT_AND_BACK, gl::FILL);
 
     while !window.should_close() {
         window.poll_events();
         handle_events(&mut window, &events);
 
-        Renderer::polygon_mode(gl::FRONT_AND_BACK, gl::LINE);
-
         Renderer::clear();
+
+        shader.bind();
+        crocodile.bind(0);
+        shader.set_int("crocodileTex", 0);
+
+        shader.set_float("time", window.get_time() as GLfloat);
 
         Renderer::draw(&shader, &vertex_array, &index_buffer);
 

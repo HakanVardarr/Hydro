@@ -14,7 +14,7 @@
 //!
 //! ### `reexports`
 //!
-//! The `reexports` module re-exports types and functions from external libraries for convenience. It allows users to access commonly used types from the `glfw` crate without directly importing them.
+//! The `reexports` module re-exports types and functions from external libraries for convenience. It allows users to access commonly used types from the `glfw` crate and `gl` crate without directly importing them.
 //!
 //! #### Reexported Types
 //!
@@ -24,7 +24,7 @@
 //! - `MouseButton`: Represents a mouse button.
 //! - `Scancode`: Represents a platform-specific scancode.
 //! - `WindowEvent`: Represents events that occur on a GLFW window.
-//!
+//! - `Types` : Represents opengl types.
 //! ## Usage
 //!
 //! To use Hydro in your Rust project, you can import the desired modules:
