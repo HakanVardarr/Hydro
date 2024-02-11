@@ -35,16 +35,6 @@ Run the compiled executable using the following command:
 cargo run
 ```
 
-## Dependencies
-
-This project relies on the following external dependencies:
-
-- [glfw](https://crates.io/crates/glfw): GLFW bindings for Rust. It provides a simple and cross-platform library for creating windows and handling input.
-
-- [gl-rs](https://crates.io/crates/gl): OpenGL bindings for Rust. It allows Rust code to interact with OpenGL functions and features.
-
-Make sure to check the respective documentation for each dependency for additional details.
-
 ## Acknowledgments
 
 - Special thanks to [learn.opengl.com](https://learnopengl.com) for providing valuable tutorials and resources that helped in learning and implementing OpenGL concepts in this project.
