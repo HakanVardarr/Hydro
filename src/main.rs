@@ -18,7 +18,7 @@ const INDICIES: [GLuint; 6] = [
 ];
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (mut window, events) = Window::new(800, 600, "Tolga", false);
+    let (mut window, events) = Window::new(800, 600, "Hydro", false);
 
     let container = Texture::new("./assets/container.jpg", "containerTex")?;
     let face = Texture::new("./assets/face.png", "faceTex")?;
