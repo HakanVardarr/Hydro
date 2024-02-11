@@ -4,10 +4,11 @@ use hydro::reexports::*;
 
 #[rustfmt::skip]
 const VERTICES: [GLfloat; 20] = [
-     0.5,  0.5, 0.0, 1.0, 1.0,
-     0.5, -0.5, 0.0, 1.0, 0.0,
-    -0.5, -0.5, 0.0, 0.0, 0.0,
-    -0.5,  0.5, 0.0, 0.0, 1.0,
+    // Position         Texture Coord
+     0.5,  0.5, 0.0,    1.0, 1.0,
+     0.5, -0.5, 0.0,    1.0, 0.0,
+    -0.5, -0.5, 0.0,    0.0, 0.0,
+    -0.5,  0.5, 0.0,    0.0, 1.0,
 ];
 
 #[rustfmt::skip]
@@ -19,9 +20,13 @@ const INDICIES: [GLuint; 6] = [
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (mut window, events) = Window::new(800, 600, "Tolga", false);
 
-    let crocodile = Texture::new("./assets/crocodile.jpg")?;
+    let container = Texture::new("./assets/container.jpg", "containerTex")?;
+    let face = Texture::new("./assets/face.png", "faceTex")?;
 
-    let shader = Shader::new("./shaders/main.vert", "./shaders/main.frag")?;
+    let mut shader = Shader::new("./shaders/main.vert", "./shaders/main.frag")?;
+    shader.add_texture(container.clone());
+    shader.add_texture(face.clone());
+
     let vertex_buffer = VertexBuffer::new(&VERTICES);
     let vertex_array = VertexArray::new(&vertex_buffer, &[3, 2]);
     let index_buffer = IndexBuffer::new(&INDICIES);
@@ -35,10 +40,33 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         Renderer::clear();
 
-        shader.bind();
-        crocodile.bind(0);
-        shader.set_int("crocodileTex", 0);
+        let mut trans = glm::mat4(
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+        );
 
+        // First Box: Apply translation and rotation
+        trans = glm::ext::translate(&trans, glm::vec3(0.5, -0.5, 0.0));
+        trans = glm::ext::rotate(&trans, window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
+
+        // Render first box
+
+        shader.bind();
+        shader.set_matrix4("transform", trans);
+        shader.set_float("time", window.get_time() as GLfloat);
+
+        Renderer::draw(&shader, &vertex_array, &index_buffer);
+
+        // Second Box: Apply translation only
+        let mut trans2 = glm::mat4(
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+        );
+
+        trans2 = glm::ext::translate(&trans2, glm::vec3(-0.5, 0.5, 0.0));
+        trans2 = glm::ext::rotate(&trans2, -window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
+
+        // Render second box
+        shader.bind();
+        shader.set_matrix4("transform", trans2);
         shader.set_float("time", window.get_time() as GLfloat);
 
         Renderer::draw(&shader, &vertex_array, &index_buffer);

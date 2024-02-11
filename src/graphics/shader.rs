@@ -2,6 +2,8 @@ use gl::types::{GLchar, GLfloat, GLint, GLuint};
 use std::{ffi::CString, fs::File, io::Read};
 use thiserror::Error;
 
+use super::Texture;
+
 /// `ShaderError` is an enumeration that represents the types of errors that can occur when working with shaders.
 /// It can either be a Vertex shader error, a Fragment shader error, or a Program error.
 ///
@@ -27,6 +29,7 @@ enum ShaderType {
 /// It contains an id of type GLuint.
 pub struct Shader {
     id: GLuint,
+    textures: Vec<Texture>,
 }
 
 /// `compile_shader` is a function that compiles a shader from a given file path and shader type.
@@ -171,7 +174,10 @@ impl Shader {
                 return Err(ShaderError::Program(error_message));
             }
 
-            Ok(Self { id })
+            Ok(Self {
+                id,
+                textures: vec![],
+            })
         }
     }
 
@@ -247,6 +253,32 @@ impl Shader {
         let c_str = CString::new(name.to_string()).unwrap();
 
         unsafe { gl::Uniform1f(gl::GetUniformLocation(self.id, c_str.as_ptr()), value) }
+    }
+
+    pub fn set_matrix4(&self, name: &str, value: glm::Matrix4<f32>) {
+        let c_str = CString::new(name.to_string()).unwrap();
+
+        unsafe {
+            gl::UniformMatrix4fv(
+                gl::GetUniformLocation(self.id, c_str.as_ptr()),
+                1,
+                gl::FALSE,
+                value.as_array().as_ptr() as *const f32,
+            )
+        }
+    }
+
+    pub fn add_texture(&mut self, texture: Texture) {
+        self.textures.push(texture);
+    }
+
+    pub fn bind_textures(&self) {
+        self.bind();
+
+        for (index, texture) in self.textures.iter().enumerate() {
+            texture.bind(index as GLuint);
+            self.set_int(texture.name(), index as GLint);
+        }
     }
 }
 

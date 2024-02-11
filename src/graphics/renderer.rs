@@ -28,7 +28,7 @@ impl Renderer {
     /// * `vertex_array` - The vertex array defining the shape's points.
     /// * `index_buffer` - The index buffer defining the order of the vertices.
     pub fn draw(shader: &Shader, vertex_array: &VertexArray, index_buffer: &IndexBuffer) {
-        shader.bind();
+        shader.bind_textures();
         vertex_array.bind();
         index_buffer.bind();
 

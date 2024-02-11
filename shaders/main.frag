@@ -8,9 +8,9 @@ uniform float time;
 
 uniform sampler2D containerTex;
 uniform sampler2D faceTex;
-uniform sampler2D crocodileTex;
+
 
 void main()
 {
-    FragColor = texture(crocodileTex, texCoord);
+    FragColor = mix(texture(containerTex, texCoord), texture(faceTex, texCoord), 0.2);
 } 

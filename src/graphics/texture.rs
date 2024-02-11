@@ -12,9 +12,10 @@ pub enum TextureError {
 }
 
 /// Represents a texture object.
-
+#[derive(Clone)]
 pub struct Texture {
     id: GLuint,
+    name: String,
 }
 
 impl Texture {
@@ -28,7 +29,7 @@ impl Texture {
     ///
     /// * `Ok(Texture)` - A new texture object if the texture creation is successful.
     /// * `Err(TextureError)` - An error indicating the reason for texture creation failure.
-    pub fn new(path: &str) -> Result<Self, TextureError> {
+    pub fn new(path: &str, name: &str) -> Result<Self, TextureError> {
         let mut id: GLuint = 0;
 
         unsafe {
@@ -59,9 +60,11 @@ impl Texture {
             )
         }
 
-        Ok(Self { id })
+        Ok(Self {
+            id,
+            name: name.to_string(),
+        })
     }
-
     /// Binds the texture to the specified texture unit.
     ///
     /// # Arguments
@@ -76,6 +79,10 @@ impl Texture {
     /// Unbinds the currently bound texture.
     pub fn unbind(&self) {
         unsafe { gl::BindTexture(gl::TEXTURE_2D, 0) };
+    }
+
+    pub fn name(&self) -> &str {
+        &self.name
     }
 }
 
