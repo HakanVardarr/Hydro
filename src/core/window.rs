@@ -12,7 +12,7 @@ impl Window {
     /// Constructs a new `Window` and its associated `Events`.
     /// The window is created with the specified `width`, `height`, and `title`.
     /// The OpenGL context is also set up within this method.
-    pub fn new(width: u32, height: u32, title: &str, fullscreen: bool) -> (Self, Events) {
+    pub fn new(mut width: u32, mut height: u32, title: &str) -> (Self, Events) {
         use glfw::fail_on_errors;
 
         let mut glfw = glfw::init(fail_on_errors!()).unwrap();
@@ -21,7 +21,12 @@ impl Window {
         glfw.window_hint(glfw::WindowHint::OpenGlProfile(
             glfw::OpenGlProfileHint::Core,
         ));
+
         glfw.window_hint(glfw::WindowHint::Resizable(false));
+
+        if cfg!(target_os = "macos") {
+            glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        }
 
         let (mut window, events) = glfw
             .with_primary_monitor(|glfw, m| {
@@ -43,9 +48,18 @@ impl Window {
         window.make_current();
         window.set_all_polling(true);
 
+        window.set_framebuffer_size_callback(|_, width, height| unsafe {
+            gl::Viewport(0, 0, width, height);
+        });
+
         let events = Events::new(events);
 
         gl::load_with(|s| glfw.get_proc_address_raw(s));
+
+        if cfg!(target_os = "macos") {
+            width *= 2;
+            height *= 2;
+        }
 
         unsafe {
             gl::Viewport(
