@@ -1,5 +1,5 @@
 use super::events::Events;
-use glfw::Context;
+use glfw::{Context, MonitorEvent};
 
 /// The `Window` struct is responsible for managing a GLFW window and its associated events.
 pub struct Window {

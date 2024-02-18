@@ -17,6 +17,8 @@ const INDICIES: [GLuint; 6] = [
     1, 2, 3,
 ];
 
+const FPS_LIMIT: f64 = 1.0 / 60.0;
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (mut window, events) = Window::new(800, 600, "Hydro");
 
@@ -34,46 +36,67 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Renderer::clear_color(0.0, 0.0, 0.0, 1.0);
     Renderer::polygon_mode(gl::FRONT_AND_BACK, gl::FILL);
 
+    let mut last_update_time = 0.0;
+    let mut last_frame_time = 0.0;
+    let mut last_print_time = 0.0;
+    let mut frame_count = 0.0;
+
     while !window.should_close() {
+        let now = window.get_time();
+        let delta_time = now - last_update_time;
+
         window.poll_events();
         handle_events(&mut window, &events);
 
-        Renderer::clear();
+        if now - last_frame_time >= FPS_LIMIT {
+            Renderer::clear();
 
-        let mut trans = glm::mat4(
-            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-        );
+            let mut trans = glm::mat4(
+                1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+            );
 
-        // First Box: Apply translation and rotation
-        trans = glm::ext::translate(&trans, glm::vec3(0.5, -0.5, 0.0));
-        trans = glm::ext::rotate(&trans, window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
+            // First Box: Apply translation and rotation
+            trans = glm::ext::translate(&trans, glm::vec3(0.5, -0.5, 0.0));
+            trans = glm::ext::rotate(&trans, window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
 
-        // Render first box
+            // Render first box
 
-        let time = window.get_time() as GLfloat;
+            let time = window.get_time() as GLfloat;
 
-        shader.bind();
-        shader.set_matrix4("transform", trans);
-        shader.set_float("time", time);
+            shader.bind();
+            shader.set_matrix4("transform", trans);
+            shader.set_float("time", time);
 
-        Renderer::draw(&shader, &vertex_array, &index_buffer);
+            Renderer::draw(&shader, &vertex_array, &index_buffer);
 
-        // Second Box: Apply translation only
-        let mut trans2 = glm::mat4(
-            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-        );
+            // Second Box: Apply translation only
+            let mut trans2 = glm::mat4(
+                1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+            );
 
-        trans2 = glm::ext::translate(&trans2, glm::vec3(-0.5, 0.5, 0.0));
-        trans2 = glm::ext::rotate(&trans2, -window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
+            trans2 = glm::ext::translate(&trans2, glm::vec3(-0.5, 0.5, 0.0));
+            trans2 = glm::ext::rotate(&trans2, -window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
 
-        // Render second box
-        shader.bind();
-        shader.set_matrix4("transform", trans2);
-        shader.set_float("time", time);
+            // Render second box
+            shader.bind();
+            shader.set_matrix4("transform", trans2);
+            shader.set_float("time", time);
 
-        Renderer::draw(&shader, &vertex_array, &index_buffer);
+            Renderer::draw(&shader, &vertex_array, &index_buffer);
 
-        window.swap_buffers();
+            window.swap_buffers();
+
+            last_frame_time = now;
+            frame_count += 1.0;
+
+            if now - last_print_time >= 1.0 {
+                println!("FPS: {}", frame_count / 1.0);
+                frame_count = 0.0;
+                last_print_time = now;
+            }
+        }
+
+        last_update_time = now;
     }
 
     Ok(())
