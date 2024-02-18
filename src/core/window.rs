@@ -12,7 +12,7 @@ impl Window {
     /// Constructs a new `Window` and its associated `Events`.
     /// The window is created with the specified `width`, `height`, and `title`.
     /// The OpenGL context is also set up within this method.
-    pub fn new(mut width: u32, mut height: u32, title: &str, fullscreen: bool) -> (Self, Events) {
+    pub fn new(mut width: u32, mut height: u32, title: &str) -> (Self, Events) {
         use glfw::fail_on_errors;
 
         let mut glfw = glfw::init(fail_on_errors!()).unwrap();
@@ -29,20 +29,7 @@ impl Window {
         }
 
         let (mut window, events) = glfw
-            .with_primary_monitor(|glfw, m| {
-                if fullscreen {
-                    glfw.create_window(
-                        width,
-                        height,
-                        title,
-                        m.map_or(glfw::WindowMode::Windowed, |m| {
-                            glfw::WindowMode::FullScreen(m)
-                        }),
-                    )
-                } else {
-                    glfw.create_window(width, height, title, glfw::WindowMode::Windowed)
-                }
-            })
+            .create_window(width, height, title, glfw::WindowMode::Windowed)
             .expect("Failed to create GLFW window");
 
         window.make_current();

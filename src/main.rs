@@ -18,7 +18,7 @@ const INDICIES: [GLuint; 6] = [
 ];
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (mut window, events) = Window::new(800, 600, "Hydro", false);
+    let (mut window, events) = Window::new(800, 600, "Hydro");
 
     let container = Texture::new("./assets/container.jpg", "containerTex")?;
     let face = Texture::new("./assets/face.png", "faceTex")?;
@@ -50,9 +50,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // Render first box
 
+        let time = window.get_time() as GLfloat;
+
         shader.bind();
         shader.set_matrix4("transform", trans);
-        shader.set_float("time", window.get_time() as GLfloat);
+        shader.set_float("time", time);
 
         Renderer::draw(&shader, &vertex_array, &index_buffer);
 
@@ -67,7 +69,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // Render second box
         shader.bind();
         shader.set_matrix4("transform", trans2);
-        shader.set_float("time", window.get_time() as GLfloat);
+        shader.set_float("time", time);
 
         Renderer::draw(&shader, &vertex_array, &index_buffer);
 
