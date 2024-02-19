@@ -1,0 +1,10 @@
+^C:\USERS\HAKOV\DOCUMENTS\PROGRAMMING\C++\HYDRO\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/hakov/Documents/Programming/C++/Hydro -BC:/Users/hakov/Documents/Programming/C++/Hydro/build --check-stamp-file C:/Users/hakov/Documents/Programming/C++/Hydro/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
