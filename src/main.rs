@@ -1,3 +1,4 @@
+use glm::vec3;
 use hydro::core::{Events, Window};
 use hydro::graphics::*;
 use hydro::reexports::*;
@@ -20,14 +21,16 @@ const INDICIES: [GLuint; 6] = [
 const FPS_LIMIT: f64 = 1.0 / 60.0;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (mut window, events) = Window::new(800, 600, "Hydro");
+    let (mut window, events) = Window::new(800, 600, "Timsah");
 
     let container = Texture::new("./assets/container.jpg", "containerTex")?;
     let face = Texture::new("./assets/face.png", "faceTex")?;
+    let crocodile = Texture::new("./assets/crocodile.jpg", "crocodileTex")?;
 
     let mut shader = Shader::new("./shaders/main.vert", "./shaders/main.frag")?;
-    shader.add_texture(container.clone());
-    shader.add_texture(face.clone());
+    // shader.add_texture(container.clone());
+    // shader.add_texture(face.clone());
+    shader.add_texture(crocodile.clone());
 
     let vertex_buffer = VertexBuffer::new(&VERTICES);
     let vertex_array = VertexArray::new(&vertex_buffer, &[3, 2]);
@@ -56,7 +59,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             );
 
             // First Box: Apply translation and rotation
-            trans = glm::ext::translate(&trans, glm::vec3(0.5, -0.5, 0.0));
+            // trans = glm::ext::translate(&trans, glm::vec3(0.5, -0.5, 0.0));
             trans = glm::ext::rotate(&trans, window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
 
             // Render first box
@@ -65,21 +68,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             shader.bind();
             shader.set_matrix4("transform", trans);
-            shader.set_float("time", time);
-
-            Renderer::draw(&shader, &vertex_array, &index_buffer);
-
-            // Second Box: Apply translation only
-            let mut trans2 = glm::mat4(
-                1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-            );
-
-            trans2 = glm::ext::translate(&trans2, glm::vec3(-0.5, 0.5, 0.0));
-            trans2 = glm::ext::rotate(&trans2, -window.get_time() as f32, glm::vec3(0.0, 0.0, 1.0));
-
-            // Render second box
-            shader.bind();
-            shader.set_matrix4("transform", trans2);
             shader.set_float("time", time);
 
             Renderer::draw(&shader, &vertex_array, &index_buffer);

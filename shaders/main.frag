@@ -6,11 +6,10 @@ out vec4 FragColor;
 
 uniform float time;
 
-uniform sampler2D containerTex;
-uniform sampler2D faceTex;
+uniform sampler2D crocodileTex;
 
 
 void main()
 {
-    FragColor = mix(texture(containerTex, texCoord), texture(faceTex, texCoord), 0.2);
+    FragColor = texture(crocodileTex, texCoord);
 } 
