@@ -1,3 +1,0 @@
-C:/Users/hakov/Documents/Programming/C++/Hydro/build/CMakeFiles/Hydro.dir
-C:/Users/hakov/Documents/Programming/C++/Hydro/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/hakov/Documents/Programming/C++/Hydro/build/CMakeFiles/ZERO_CHECK.dir
