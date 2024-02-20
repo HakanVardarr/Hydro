@@ -1,6 +1,7 @@
 #include "Core/Window.h"
 
 #include <stdexcept>
+#include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -17,13 +18,15 @@ namespace Hydro
 {
     Window::Window(int width, int height, const char *title)
     {
-        this->setWidth(width);
-        this->setHeight(height);
 
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
+#endif
 
         h_window = glfwCreateWindow(width, height, title, NULL, NULL);
 
@@ -35,6 +38,14 @@ namespace Hydro
 
         glfwSetWindowUserPointer(h_window, this);
 
+#ifdef __APPLE__
+        width *= 2;
+        height *= 2;
+#endif
+
+        setWidth(width);
+        setHeight(height);
+
         glfwSetFramebufferSizeCallback(h_window, framebuffer_size_callback);
 
         glfwMakeContextCurrent(h_window);
@@ -44,6 +55,8 @@ namespace Hydro
             glfwTerminate();
             throw std::runtime_error("\x1b[1m\x1b[31m[ERROR]\x1b[0m: Failed to initialize GLAD");
         }
+
+        glViewport(0, 0, h_width, h_height);
     }
 
     void Window::setWidth(int width)
