@@ -1,8 +1,7 @@
 #include "Core/Window.h"
-#include "Core/KeyEvent.h"
+#include "Core/Events.h"
 
 #include <stdexcept>
-#include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -23,17 +22,16 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     {
         switch (action)
         {
-        case GLFW_RELEASE:
+        case GLFW_RELEASE: // This case handles key release events
         {
-            // hydroWindow->setEvent(new Hydro::KeyPressEvent(key));
+            hydroWindow->setEvent(new Hydro::KeyReleaseEvent(key));
             break;
         }
-        case GLFW_PRESS:
+        case GLFW_PRESS: // This case handles key press events
         {
             hydroWindow->setEvent(new Hydro::KeyPressEvent(key));
             break;
         }
-
         default:
             break;
         }

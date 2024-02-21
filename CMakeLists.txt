@@ -9,7 +9,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/vendor
 )
 
-file(GLOB CORE_SOURCES "src/Core/*.cpp")
+file(GLOB CORE_SOURCES "src/Core/*.cpp" "src/Graphics/*.cpp")
 list(APPEND SOURCES ${CORE_SOURCES})
 
 # Adding the rest of the source files

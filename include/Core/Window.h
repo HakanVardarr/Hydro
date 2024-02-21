@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Core/Event.h"
+#include "Events/Event.h"
 
 namespace Hydro
 {

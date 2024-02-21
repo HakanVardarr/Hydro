@@ -83,7 +83,11 @@
     "variant": "cpp",
     "__nullptr": "cpp",
     "__string": "cpp",
-    "chrono": "cpp"
+    "chrono": "cpp",
+    "deque": "cpp",
+    "queue": "cpp",
+    "ranges": "cpp",
+    "span": "cpp"
   },
   "cmake.configureOnOpen": false
 }
