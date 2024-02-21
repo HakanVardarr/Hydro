@@ -1,4 +1,5 @@
 #include "Core/Window.h"
+#include "Core/KeyEvent.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -10,7 +11,32 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     {
         hydroWindow->setWidth(width);
         hydroWindow->setHeight(height);
+
         glViewport(0, 0, width, height);
+    }
+}
+
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    Hydro::Window *hydroWindow = static_cast<Hydro::Window *>(glfwGetWindowUserPointer(window));
+    if (hydroWindow)
+    {
+        switch (action)
+        {
+        case GLFW_RELEASE:
+        {
+            // hydroWindow->setEvent(new Hydro::KeyPressEvent(key));
+            break;
+        }
+        case GLFW_PRESS:
+        {
+            hydroWindow->setEvent(new Hydro::KeyPressEvent(key));
+            break;
+        }
+
+        default:
+            break;
+        }
     }
 }
 
@@ -28,15 +54,15 @@ namespace Hydro
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
 #endif
 
-        h_window = glfwCreateWindow(width, height, title, NULL, NULL);
+        m_window = glfwCreateWindow(width, height, title, NULL, NULL);
 
-        if (h_window == NULL)
+        if (m_window == NULL)
         {
             glfwTerminate();
             throw std::runtime_error("\x1b[1m\x1b[31m[ERROR]\x1b[0m: Failed to create GLFW window");
         }
 
-        glfwSetWindowUserPointer(h_window, this);
+        glfwSetWindowUserPointer(m_window, this);
 
 #ifdef __APPLE__
         width *= 2;
@@ -46,9 +72,10 @@ namespace Hydro
         setWidth(width);
         setHeight(height);
 
-        glfwSetFramebufferSizeCallback(h_window, framebuffer_size_callback);
+        glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+        glfwSetKeyCallback(m_window, key_callback);
 
-        glfwMakeContextCurrent(h_window);
+        glfwMakeContextCurrent(m_window);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
@@ -56,22 +83,27 @@ namespace Hydro
             throw std::runtime_error("\x1b[1m\x1b[31m[ERROR]\x1b[0m: Failed to initialize GLAD");
         }
 
-        glViewport(0, 0, h_width, h_height);
+        glViewport(0, 0, m_width, m_height);
     }
 
     void Window::setWidth(int width)
     {
-        h_width = width;
+        m_width = width;
     }
 
     void Window::setHeight(int height)
     {
-        h_height = height;
+        m_height = height;
+    }
+
+    void Window::setEvent(Event *event)
+    {
+        m_event = event;
     }
 
     void Window::swapBuffers()
     {
-        glfwSwapBuffers(h_window);
+        glfwSwapBuffers(m_window);
     }
 
     void Window::pollEvents()
@@ -81,7 +113,7 @@ namespace Hydro
 
     bool Window::shouldClose()
     {
-        return glfwWindowShouldClose(h_window);
+        return glfwWindowShouldClose(m_window);
     }
 
 }

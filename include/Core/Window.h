@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Core/Event.h"
+
 namespace Hydro
 {
     class Window
@@ -17,15 +19,24 @@ namespace Hydro
 
         void setWidth(int width);
         void setHeight(int height);
+        void setEvent(Event *event);
         void swapBuffers();
         void pollEvents();
+
+        Event *getEvent()
+        {
+            Event *tempEvent = m_event;
+            m_event = nullptr;
+            return tempEvent;
+        }
 
         bool shouldClose();
 
     private:
-        GLFWwindow *h_window;
-        int h_width;
-        int h_height;
+        GLFWwindow *m_window;
+        Event *m_event = nullptr;
+        int m_width;
+        int m_height;
     };
 }
 
