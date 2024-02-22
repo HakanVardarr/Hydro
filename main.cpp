@@ -1,26 +1,10 @@
+#include "Core/Logger.h"
 #include "Core/Window.h"
 #include "Core/Events.h"
+
 #include "Graphics/Renderer.h"
 
-#include <iostream>
-
-void handle_event(Hydro::Event *event, Hydro::Window &window)
-{
-    if (event != nullptr)
-    {
-
-        if (event->getType() == Hydro::EventType::KeyPress)
-        {
-            Hydro::KeyPressEvent *keyPressEvent = static_cast<Hydro::KeyPressEvent *>(event);
-            if (keyPressEvent->getKey() == Hydro::KeyCode::KeyEscape)
-            {
-                window.setClose();
-            }
-        }
-
-        delete event;
-    }
-}
+void handle_event(Hydro::Event *event, Hydro::Window &window);
 
 int main()
 {
@@ -36,5 +20,25 @@ int main()
         handle_event(window.getEvent(), window);
 
         window.swapBuffers();
+    }
+}
+
+void handle_event(Hydro::Event *event, Hydro::Window &window)
+{
+    if (event != nullptr)
+    {
+
+        if (event->getType() == Hydro::EventType::KeyPress)
+        {
+            Hydro::Logger::info(event->toString());
+            Hydro::KeyPressEvent *keyPressEvent = static_cast<Hydro::KeyPressEvent *>(event);
+
+            if (keyPressEvent->getKey() == Hydro::KeyCode::KeyEscape)
+            {
+                window.setClose();
+            }
+        }
+
+        delete event;
     }
 }

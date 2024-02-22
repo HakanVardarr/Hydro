@@ -20,4 +20,4 @@ link_directories(
 )
 
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES} vendor/glad.c)
-target_link_libraries(${PROJECT_NAME} glfw.3)
+target_link_libraries(${PROJECT_NAME} glfw.3 spdlog)
