@@ -4,32 +4,18 @@
 
 #include <iostream>
 
-void handle_event(Hydro::Event *event)
+void handle_event(Hydro::Event *event, Hydro::Window &window)
 {
     if (event != nullptr)
     {
 
-        switch (event->getType())
+        if (event->getType() == Hydro::EventType::KeyPress)
         {
-        case Hydro::EventType::KeyPress:
-        {
-            Hydro::KeyPressEvent *keyPressEvent = (Hydro::KeyPressEvent *)(event);
-
-            if (keyPressEvent->getKey() == Hydro::KeyCode::KeyW)
+            Hydro::KeyPressEvent *keyPressEvent = static_cast<Hydro::KeyPressEvent *>(event);
+            if (keyPressEvent->getKey() == Hydro::KeyCode::KeyEscape)
             {
-                std::cout << "W key is pressed" << std::endl;
+                window.setClose();
             }
-
-            break;
-        }
-        case Hydro::EventType::KeyRelease:
-        {
-            Hydro::KeyReleaseEvent *keyReleaseEvent = (Hydro::KeyReleaseEvent *)(event);
-            std::cout << "Key Released : " << (int)keyReleaseEvent->getKey() << std::endl;
-            break;
-        }
-        default:
-            break;
         }
 
         delete event;
@@ -47,7 +33,7 @@ int main()
         renderer.clear();
         window.pollEvents();
 
-        handle_event(window.getEvent());
+        handle_event(window.getEvent(), window);
 
         window.swapBuffers();
     }

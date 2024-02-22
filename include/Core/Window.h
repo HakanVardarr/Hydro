@@ -20,15 +20,11 @@ namespace Hydro
         void setWidth(int width);
         void setHeight(int height);
         void setEvent(Event *event);
+        void setClose();
         void swapBuffers();
         void pollEvents();
 
-        Event *getEvent()
-        {
-            Event *tempEvent = m_event;
-            m_event = nullptr;
-            return tempEvent;
-        }
+        Event *getEvent();
 
         bool shouldClose();
 

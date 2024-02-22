@@ -99,6 +99,11 @@ namespace Hydro
         m_event = event;
     }
 
+    void Window::setClose()
+    {
+        glfwSetWindowShouldClose(m_window, true);
+    }
+
     void Window::swapBuffers()
     {
         glfwSwapBuffers(m_window);
@@ -107,6 +112,13 @@ namespace Hydro
     void Window::pollEvents()
     {
         glfwPollEvents();
+    }
+
+    Event *Window::getEvent()
+    {
+        Event *tempEvent = m_event;
+        m_event = nullptr;
+        return tempEvent;
     }
 
     bool Window::shouldClose()
