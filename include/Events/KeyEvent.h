@@ -33,9 +33,9 @@ namespace Hydro
         KeyPressEvent(int key) : m_key((KeyCode)key) {}
         ~KeyPressEvent() = default;
 
-        EventType getType();
-        std::string toString();
-        KeyCode getKey();
+        EventType getType() const;
+        std::string toString() const;
+        KeyCode getKey() const;
 
     private:
         KeyCode m_key;
@@ -47,9 +47,9 @@ namespace Hydro
         KeyReleaseEvent(int key) : m_key((KeyCode)key) {}
         ~KeyReleaseEvent() = default;
 
-        EventType getType();
-        std::string toString();
-        KeyCode getKey();
+        EventType getType() const;
+        std::string toString() const;
+        KeyCode getKey() const;
 
     private:
         KeyCode m_key;

@@ -9,18 +9,17 @@ namespace Hydro
     enum class EventType
     {
         None = 0,
-        KeyPress, KeyRelease
+        KeyPress, KeyRelease,
+        MouseMove, MousePress, MouseRelease
     };
     // clang-format on
 
     class Event
     {
     public:
-        virtual EventType getType() = 0;
-        virtual std::string toString() = 0;
-
-    private:
-        bool m_handled = false;
+        virtual ~Event() = default;
+        virtual EventType getType() const = 0;
+        virtual std::string toString() const = 0;
     };
 }
 

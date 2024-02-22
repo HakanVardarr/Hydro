@@ -87,7 +87,13 @@
     "deque": "cpp",
     "queue": "cpp",
     "ranges": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "condition_variable": "cpp",
+    "forward_list": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp",
+    "fstream": "cpp",
+    "numeric": "cpp"
   },
   "cmake.configureOnOpen": false
 }

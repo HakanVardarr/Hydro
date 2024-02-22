@@ -6,6 +6,8 @@
 
 #include "Events/Event.h"
 
+#include <queue>
+
 namespace Hydro
 {
     class Window
@@ -30,7 +32,7 @@ namespace Hydro
 
     private:
         GLFWwindow *m_window;
-        Event *m_event = nullptr;
+        std::queue<Event *> m_eventQueue;
         int m_width;
         int m_height;
     };

@@ -6,4 +6,9 @@ namespace Hydro
     {
         spdlog::info(message);
     }
+
+    void Logger::error(std::string message)
+    {
+        spdlog::error(message);
+    }
 }
