@@ -14,9 +14,9 @@ namespace Hydro
     class Renderer
     {
     public:
-        static void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
-        static void clear();
-        static void draw(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const Shader &shader);
+        static void ClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+        static void Clear();
+        static void Draw(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const Shader &shader);
     };
 }
 

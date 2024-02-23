@@ -2,22 +2,22 @@
 
 namespace Hydro
 {
-    void Renderer::clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+    void Renderer::ClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
     {
         glClearColor(r, g, b, a);
     }
 
-    void Renderer::clear()
+    void Renderer::Clear()
     {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void Renderer::draw(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const Shader &shader)
+    void Renderer::Draw(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const Shader &shader)
     {
-        shader.bind();
-        vertexArray.bind();
-        indexBuffer.bind();
+        shader.Bind();
+        vertexArray.Bind();
+        indexBuffer.Bind();
 
-        glDrawElements(GL_TRIANGLES, indexBuffer.count(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indexBuffer.Count(), GL_UNSIGNED_INT, 0);
     }
 }

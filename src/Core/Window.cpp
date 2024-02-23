@@ -10,8 +10,8 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     Hydro::Window *hydroWindow = static_cast<Hydro::Window *>(glfwGetWindowUserPointer(window));
     if (hydroWindow)
     {
-        hydroWindow->setWidth(width);
-        hydroWindow->setHeight(height);
+        hydroWindow->SetWidth(width);
+        hydroWindow->SetHeight(height);
 
         glViewport(0, 0, width, height);
     }
@@ -26,12 +26,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         {
         case GLFW_RELEASE:
         {
-            hydroWindow->setEvent(new Hydro::KeyReleaseEvent(key));
+            hydroWindow->SetEvent(new Hydro::KeyReleaseEvent(key));
             break;
         }
         case GLFW_PRESS:
         {
-            hydroWindow->setEvent(new Hydro::KeyPressEvent(key));
+            hydroWindow->SetEvent(new Hydro::KeyPressEvent(key));
             break;
         }
         default:
@@ -45,7 +45,7 @@ void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
     Hydro::Window *hydroWindow = static_cast<Hydro::Window *>(glfwGetWindowUserPointer(window));
     if (hydroWindow)
     {
-        hydroWindow->setEvent(new Hydro::MouseMoveEvent(xpos, ypos));
+        hydroWindow->SetEvent(new Hydro::MouseMoveEvent(xpos, ypos));
     }
 }
 
@@ -59,11 +59,11 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         glfwGetCursorPos(window, &xPos, &yPos);
         if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
         {
-            hydroWindow->setEvent(new Hydro::MousePress(xPos, yPos, Hydro::MouseButton::Right));
+            hydroWindow->SetEvent(new Hydro::MousePress(xPos, yPos, Hydro::MouseButton::Right));
         }
         else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
         {
-            hydroWindow->setEvent(new Hydro::MousePress(xPos, yPos, Hydro::MouseButton::Left));
+            hydroWindow->SetEvent(new Hydro::MousePress(xPos, yPos, Hydro::MouseButton::Left));
         }
     }
 }
@@ -97,8 +97,8 @@ namespace Hydro
         height *= 2;
 #endif
 
-        setWidth(width);
-        setHeight(height);
+        SetWidth(width);
+        SetHeight(height);
 
         glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
         glfwSetKeyCallback(m_window, key_callback);
@@ -114,40 +114,40 @@ namespace Hydro
         }
 
         glViewport(0, 0, m_width, m_height);
-        Logger::info("[WINDOW] Window successfully created");
+        Logger::Info("[WINDOW] Window successfully created");
     }
 
-    void Window::setWidth(int width)
+    void Window::SetWidth(int width)
     {
         m_width = width;
     }
 
-    void Window::setHeight(int height)
+    void Window::SetHeight(int height)
     {
         m_height = height;
     }
 
-    void Window::setEvent(Event *event)
+    void Window::SetEvent(Event *event)
     {
         m_eventQueue.push(event);
     }
 
-    void Window::setClose()
+    void Window::SetClose()
     {
         glfwSetWindowShouldClose(m_window, true);
     }
 
-    void Window::swapBuffers()
+    void Window::SwapBuffers()
     {
         glfwSwapBuffers(m_window);
     }
 
-    void Window::pollEvents()
+    void Window::PollEvents()
     {
         glfwPollEvents();
     }
 
-    Event *Window::getEvent()
+    Event *Window::GetEvent()
     {
 
         if (!m_eventQueue.empty())
@@ -160,7 +160,12 @@ namespace Hydro
         return nullptr;
     }
 
-    bool Window::shouldClose()
+    float Window::GetTime()
+    {
+        return glfwGetTime();
+    }
+
+    bool Window::ShouldClose()
     {
         return glfwWindowShouldClose(m_window);
     }

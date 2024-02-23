@@ -19,16 +19,18 @@ namespace Hydro
             glfwTerminate();
         }
 
-        void setWidth(int width);
-        void setHeight(int height);
-        void setEvent(Event *event);
-        void setClose();
-        void swapBuffers();
-        void pollEvents();
+        void SetWidth(int width);
+        void SetHeight(int height);
+        void SetEvent(Event *event);
+        void SetClose();
+        void SwapBuffers();
+        void PollEvents();
 
-        Event *getEvent();
+        Event *GetEvent();
 
-        bool shouldClose();
+        float GetTime();
+
+        bool ShouldClose();
 
     private:
         GLFWwindow *m_window;

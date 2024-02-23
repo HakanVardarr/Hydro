@@ -5,51 +5,51 @@
 
 namespace Hydro
 {
-    EventType MouseMoveEvent::getType() const
+    EventType MouseMoveEvent::GetType() const
     {
         return EventType::MouseMove;
     }
 
-    std::string MouseMoveEvent::toString() const
+    std::string MouseMoveEvent::ToString() const
     {
         std::stringstream ss;
         ss << "[MOUSE MOVE] Mouse position: (" << m_posX << "," << m_posY << ")";
         return ss.str();
     }
 
-    double MouseMoveEvent::getPosX() const
+    double MouseMoveEvent::GetPosX() const
     {
         return m_posX;
     }
 
-    double MouseMoveEvent::getPosY() const
+    double MouseMoveEvent::GetPosY() const
     {
         return m_posY;
     }
 
-    EventType MousePress::getType() const
+    EventType MousePress::GetType() const
     {
         return EventType::MousePress;
     }
 
-    std::string MousePress::toString() const
+    std::string MousePress::ToString() const
     {
         std::stringstream ss;
         ss << "[MOUSE CLICK] Mouse position: (" << m_posX << "," << m_posY << ")";
         return ss.str();
     }
 
-    double MousePress::getPosX() const
+    double MousePress::GetPosX() const
     {
         return m_posX;
     }
 
-    double MousePress::getPosY() const
+    double MousePress::GetPosY() const
     {
         return m_posY;
     }
 
-    MouseButton MousePress::getButton() const
+    MouseButton MousePress::GetButton() const
     {
         return m_button;
     }

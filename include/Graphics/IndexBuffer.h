@@ -11,10 +11,10 @@ namespace Hydro
         IndexBuffer(unsigned int *indicies, unsigned int size);
         ~IndexBuffer();
 
-        void bind() const;
-        void unbind() const;
+        void Bind() const;
+        void Unbind() const;
 
-        unsigned int count() const;
+        unsigned int Count() const;
 
     private:
         unsigned int m_id;

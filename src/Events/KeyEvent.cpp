@@ -2,36 +2,36 @@
 
 namespace Hydro
 {
-    EventType KeyPressEvent::getType() const
+    EventType KeyPressEvent::GetType() const
     {
         return EventType::KeyPress;
     }
 
-    std::string KeyPressEvent::toString() const
+    std::string KeyPressEvent::ToString() const
     {
         std::stringstream ss;
         ss << "[KEY PRESS] Key Pressed: " << (int)m_key;
         return ss.str();
     }
 
-    KeyCode KeyPressEvent::getKey() const
+    KeyCode KeyPressEvent::GetKey() const
     {
         return m_key;
     }
 
-    EventType KeyReleaseEvent::getType() const
+    EventType KeyReleaseEvent::GetType() const
     {
         return EventType::KeyRelease;
     }
 
-    std::string KeyReleaseEvent::toString() const
+    std::string KeyReleaseEvent::ToString() const
     {
         std::stringstream ss;
         ss << "[KEY RELEASE] Key Released: " << (int)m_key;
         return ss.str();
     }
 
-    KeyCode KeyReleaseEvent::getKey() const
+    KeyCode KeyReleaseEvent::GetKey() const
     {
         return m_key;
     }

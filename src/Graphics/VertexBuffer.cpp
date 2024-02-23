@@ -17,12 +17,12 @@ namespace Hydro
         glDeleteBuffers(1, &m_id);
     }
 
-    void VertexBuffer::bind() const
+    void VertexBuffer::Bind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_id);
     }
 
-    void VertexBuffer::unbind() const
+    void VertexBuffer::Unbind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }

@@ -17,11 +17,11 @@ namespace Hydro
         Shader(const std::string fragmentPath, const std::string vertexPath);
         ~Shader();
 
-        void bind() const;
-        void unbind() const;
-        void setBool(const std::string &name, bool value) const;
-        void setInt(const std::string &name, int value) const;
-        void setFloat(const std::string &name, float value) const;
+        void Bind() const;
+        void Unbind() const;
+        void SetBool(const std::string &name, bool value) const;
+        void SetInt(const std::string &name, int value) const;
+        void SetFloat(const std::string &name, float value) const;
 
     private:
         unsigned int m_id;

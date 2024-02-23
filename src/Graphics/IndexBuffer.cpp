@@ -17,17 +17,17 @@ namespace Hydro
         glDeleteBuffers(1, &m_id);
     }
 
-    void IndexBuffer::bind() const
+    void IndexBuffer::Bind() const
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
     }
 
-    void IndexBuffer::unbind() const
+    void IndexBuffer::Unbind() const
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    unsigned int IndexBuffer::count() const
+    unsigned int IndexBuffer::Count() const
     {
         return m_size;
     }

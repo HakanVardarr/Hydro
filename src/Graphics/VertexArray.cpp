@@ -11,7 +11,7 @@ namespace Hydro
 
     VertexArray::VertexArray(VertexBuffer &vertexBuffer, std::vector<unsigned int> attributes)
     {
-        vertexBuffer.bind();
+        vertexBuffer.Bind();
 
         glGenVertexArrays(1, &m_id);
         glBindVertexArray(m_id);
@@ -35,12 +35,12 @@ namespace Hydro
         glDeleteBuffers(1, &m_id);
     }
 
-    void VertexArray::bind() const
+    void VertexArray::Bind() const
     {
         glBindVertexArray(m_id);
     }
 
-    void VertexArray::unbind() const
+    void VertexArray::Unbind() const
     {
         glBindVertexArray(0);
     }

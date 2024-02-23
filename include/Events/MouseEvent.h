@@ -17,11 +17,11 @@ namespace Hydro
         MouseMoveEvent(double posX, double posY) : m_posX(posX), m_posY(posY) {}
         ~MouseMoveEvent() = default;
 
-        EventType getType() const;
-        std::string toString() const;
+        EventType GetType() const;
+        std::string ToString() const;
 
-        double getPosX() const;
-        double getPosY() const;
+        double GetPosX() const;
+        double GetPosY() const;
 
     private:
         double m_posX, m_posY;
@@ -33,12 +33,12 @@ namespace Hydro
         MousePress(double posX, double posY, MouseButton button) : m_posX(posX), m_posY(posY), m_button(button) {}
         ~MousePress() = default;
 
-        EventType getType() const;
-        std::string toString() const;
+        EventType GetType() const;
+        std::string ToString() const;
 
-        double getPosX() const;
-        double getPosY() const;
-        MouseButton getButton() const;
+        double GetPosX() const;
+        double GetPosY() const;
+        MouseButton GetButton() const;
 
     private:
         double m_posX, m_posY;

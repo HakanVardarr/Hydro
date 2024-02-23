@@ -14,8 +14,8 @@ namespace Hydro
         VertexArray(VertexBuffer &vertexBuffer, std::vector<unsigned int> attributes);
         ~VertexArray();
 
-        void bind() const;
-        void unbind() const;
+        void Bind() const;
+        void Unbind() const;
 
     private:
         unsigned int m_id;

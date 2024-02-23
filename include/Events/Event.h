@@ -18,8 +18,8 @@ namespace Hydro
     {
     public:
         virtual ~Event() = default;
-        virtual EventType getType() const = 0;
-        virtual std::string toString() const = 0;
+        virtual EventType GetType() const = 0;
+        virtual std::string ToString() const = 0;
     };
 }
 

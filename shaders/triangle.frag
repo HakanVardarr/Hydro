@@ -1,9 +1,12 @@
 #version 330 core
 
 in vec3 Color;
-
 out vec4 FragColor;
 
+uniform float time;
+uniform float speed;
+
 void main() {
-    FragColor = vec4(Color, 1.0);
+    vec3 color = Color * abs(sin(time * speed));
+    FragColor = vec4(color, 1.0) ;
 }
