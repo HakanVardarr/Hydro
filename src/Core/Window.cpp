@@ -1,3 +1,4 @@
+#include "Core/Logger.h"
 #include "Core/Window.h"
 #include "Core/Events.h"
 
@@ -113,6 +114,7 @@ namespace Hydro
         }
 
         glViewport(0, 0, m_width, m_height);
+        Logger::info("[WINDOW] Window successfully created");
     }
 
     void Window::setWidth(int width)
