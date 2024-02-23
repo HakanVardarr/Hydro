@@ -1,5 +1,7 @@
 #include "Application.h"
 
+void HandleEvent(Hydro::Window *window);
+
 // clang-format off
 float vertices[] = {
     // positions          // colors           
@@ -61,30 +63,7 @@ void Application::Update()
             Hydro::Shader *shader = object->GetShader();
             shader->Bind();
 
-            Hydro::Event *event = m_window->GetEvent();
-            while (event != nullptr)
-            {
-                if (event->GetType() == Hydro::EventType::KeyPress)
-                {
-                    Hydro::KeyPressEvent *keyPressEvent = static_cast<Hydro::KeyPressEvent *>(event);
-                    if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyUp)
-                    {
-                        speed += 0.1;
-                    }
-                    else if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyDown)
-                    {
-                        if (speed - 0.1 >= 0.0)
-                        {
-                            speed -= 0.1;
-                        }
-                    }
-                    else if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyEscape || keyPressEvent->GetKey() == Hydro::KeyCode::KeyQ)
-                    {
-                        m_window->SetClose();
-                    }
-                }
-                event = m_window->GetEvent();
-            }
+            HandleEvent(m_window);
 
             float time = (float)m_window->GetTime();
             shader->SetFloat("time", time);
@@ -92,5 +71,33 @@ void Application::Update()
 
             shader->Unbind();
         }
+    }
+}
+
+void HandleEvent(Hydro::Window *window)
+{
+    Hydro::Event *event = window->GetEvent();
+    while (event != nullptr)
+    {
+        if (event->GetType() == Hydro::EventType::KeyPress)
+        {
+            Hydro::KeyPressEvent *keyPressEvent = static_cast<Hydro::KeyPressEvent *>(event);
+            if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyUp)
+            {
+                speed += 0.1;
+            }
+            else if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyDown)
+            {
+                if (speed - 0.1 >= 0.0)
+                {
+                    speed -= 0.1;
+                }
+            }
+            else if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyEscape || keyPressEvent->GetKey() == Hydro::KeyCode::KeyQ)
+            {
+                window->SetClose();
+            }
+        }
+        event = window->GetEvent();
     }
 }
