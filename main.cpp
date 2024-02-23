@@ -34,11 +34,6 @@ int main()
         Hydro::VertexArray vertexArray(vertexBuffer, {3, 3});
         Hydro::IndexBuffer indexBuffer(indicies, sizeof(indicies));
 
-        vertexArray.unbind();
-        vertexBuffer.unbind();
-        indexBuffer.unbind();
-        shader.unbind();
-
         while (!window.shouldClose())
         {
             window.pollEvents();
