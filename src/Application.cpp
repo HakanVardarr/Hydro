@@ -40,6 +40,7 @@ void Application::Run()
     {
         m_window->PollEvents();
 
+        HandleEvent();
         Update();
         Hydro::Renderer::Clear();
 
@@ -63,8 +64,6 @@ void Application::Update()
             Hydro::Shader *shader = object->GetShader();
             shader->Bind();
 
-            HandleEvent(m_window);
-
             float time = (float)m_window->GetTime();
             shader->SetFloat("time", time);
             shader->SetFloat("speed", speed);
@@ -74,9 +73,9 @@ void Application::Update()
     }
 }
 
-void HandleEvent(Hydro::Window *window)
+void Application::HandleEvent()
 {
-    Hydro::Event *event = window->GetEvent();
+    Hydro::Event *event = m_window->GetEvent();
     while (event != nullptr)
     {
         if (event->GetType() == Hydro::EventType::KeyPress)
@@ -95,9 +94,9 @@ void HandleEvent(Hydro::Window *window)
             }
             else if (keyPressEvent->GetKey() == Hydro::KeyCode::KeyEscape || keyPressEvent->GetKey() == Hydro::KeyCode::KeyQ)
             {
-                window->SetClose();
+                m_window->SetClose();
             }
         }
-        event = window->GetEvent();
+        event = m_window->GetEvent();
     }
 }

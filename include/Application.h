@@ -56,6 +56,7 @@ public:
 
     void Run();
     void Update();
+    void HandleEvent();
 
 private:
     Hydro::Window *m_window = nullptr;
