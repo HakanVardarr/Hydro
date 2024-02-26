@@ -4,9 +4,9 @@ in vec3 Color;
 out vec4 FragColor;
 
 uniform float time;
-uniform float speed;
+
 
 void main() {
-    vec3 color = Color * abs(sin(time * speed));
+    vec3 color = Color;
     FragColor = vec4(color, 1.0) ;
 }

@@ -57,20 +57,6 @@ static float speed = 1.0;
 
 void Application::Update()
 {
-    for (auto object : m_objects)
-    {
-        if (object->GetName() == "Triangle")
-        {
-            Hydro::Shader *shader = object->GetShader();
-            shader->Bind();
-
-            float time = (float)m_window->GetTime();
-            shader->SetFloat("time", time);
-            shader->SetFloat("speed", speed);
-
-            shader->Unbind();
-        }
-    }
 }
 
 void Application::HandleEvent()
