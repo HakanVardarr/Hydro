@@ -1,17 +1,19 @@
 use glium::{implement_vertex, Surface};
+use hydro::Shader;
 
 #[derive(Clone, Copy)]
 struct Vertex {
-    position: [f32; 2],
+    position: [f32; 3],
+    color: [f32; 3],
 }
 
 impl Vertex {
-    fn new(position: [f32; 2]) -> Self {
-        Self { position }
+    fn new(position: [f32; 3], color: [f32; 3]) -> Self {
+        Self { position, color }
     }
 }
 
-implement_vertex!(Vertex, position);
+implement_vertex!(Vertex, position, color);
 
 fn main() {
     let event_loop = winit::event_loop::EventLoopBuilder::new()
@@ -23,9 +25,9 @@ fn main() {
         .build(&event_loop);
 
     let shape = vec![
-        Vertex::new([-0.5, -0.5]),
-        Vertex::new([0.0, 0.5]),
-        Vertex::new([0.5, -0.5]),
+        Vertex::new([-0.5, -0.5, 0.0], [1.0, 0.0, 0.0]),
+        Vertex::new([0.0, 0.5, 0.0], [0.0, 1.0, 0.0]),
+        Vertex::new([0.5, -0.5, 0.0], [0.0, 0.0, 1.0]),
     ];
 
     let vertex_buffer = glium::VertexBuffer::new(&display, &shape).unwrap();
@@ -36,29 +38,7 @@ fn main() {
     )
     .expect("Failed to create index buffer");
 
-    let vertex_shader_src = r#"
-    #version 140
-
-    in vec2 position;
-
-    void main() {
-        gl_Position = vec4(position, 0.0, 1.0);
-    }
-"#;
-
-    let fragment_shader_src = r#"
-    #version 140
-
-    out vec4 color;
-
-    void main() {
-        color = vec4(1.0, 0.0, 0.0, 1.0);
-    }
-"#;
-
-    let program =
-        glium::Program::from_source(&display, vertex_shader_src, fragment_shader_src, None)
-            .unwrap();
+    let shader = Shader::new(&display, "shaders/triangle.vert", "shaders/trinagle.frag").unwrap();
 
     let mut frame = display.draw();
     frame.clear_color(0.0, 0.0, 0.0, 1.0);
@@ -66,7 +46,7 @@ fn main() {
         .draw(
             &vertex_buffer,
             &index_buffer,
-            &program,
+            &shader.program,
             &glium::uniforms::EmptyUniforms,
             &Default::default(),
         )

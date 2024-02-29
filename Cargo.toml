@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 glium = "0.34.0"
+thiserror = "1.0.57"
 winit = "0.29.11"
