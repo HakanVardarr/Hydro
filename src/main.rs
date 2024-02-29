@@ -19,6 +19,7 @@ fn main() {
         .expect("Failed to create event loop.");
     let (_window, display) = glium::backend::glutin::SimpleWindowBuilder::new()
         .with_title("Hydro")
+        .with_inner_size(800, 600)
         .build(&event_loop);
 
     let shape = vec![
@@ -28,7 +29,12 @@ fn main() {
     ];
 
     let vertex_buffer = glium::VertexBuffer::new(&display, &shape).unwrap();
-    let indicies = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
+    let index_buffer = glium::IndexBuffer::new(
+        &display,
+        glium::index::PrimitiveType::TrianglesList,
+        &[0 as u8, 1, 2],
+    )
+    .expect("Failed to create index buffer");
 
     let vertex_shader_src = r#"
     #version 140
@@ -59,7 +65,7 @@ fn main() {
     frame
         .draw(
             &vertex_buffer,
-            &indicies,
+            &index_buffer,
             &program,
             &glium::uniforms::EmptyUniforms,
             &Default::default(),
