@@ -1,5 +1,5 @@
 use glium::{implement_vertex, Surface};
-use hydro::Shader;
+use hydro::{Renderer, Shader};
 
 #[derive(Clone, Copy)]
 struct Vertex {
@@ -24,6 +24,8 @@ fn main() {
         .with_inner_size(800, 600)
         .build(&event_loop);
 
+    let renderer = Renderer::new(&display);
+
     let shape = vec![
         Vertex::new([-0.5, -0.5, 0.0], [1.0, 0.0, 0.0]),
         Vertex::new([0.0, 0.5, 0.0], [0.0, 1.0, 0.0]),
@@ -39,8 +41,8 @@ fn main() {
     .expect("Failed to create index buffer");
 
     let shader = Shader::new(&display, "shaders/triangle.vert", "shaders/trinagle.frag").unwrap();
-
     let mut frame = display.draw();
+
     frame.clear_color(0.0, 0.0, 0.0, 1.0);
     frame
         .draw(
