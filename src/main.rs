@@ -1,5 +1,10 @@
 use glium::{implement_vertex, Surface};
 use hydro::{Renderer, Shader};
+use winit::{
+    event::{ElementState, Event, KeyEvent},
+    event_loop::EventLoopWindowTarget,
+    keyboard::PhysicalKey,
+};
 
 #[derive(Clone, Copy)]
 struct Vertex {
@@ -33,6 +38,7 @@ fn main() {
     ];
 
     let vertex_buffer = glium::VertexBuffer::new(&display, &shape).unwrap();
+
     let index_buffer = glium::IndexBuffer::new(
         &display,
         glium::index::PrimitiveType::TrianglesList,
@@ -40,7 +46,10 @@ fn main() {
     )
     .expect("Failed to create index buffer");
 
-    let shader = Shader::new(&display, "shaders/triangle.vert", "shaders/trinagle.frag").unwrap();
+    let shader = renderer
+        .create_shader("shaders/triangle.vert", "shaders/triangle.frag")
+        .unwrap();
+
     let mut frame = display.draw();
 
     frame.clear_color(0.0, 0.0, 0.0, 1.0);
@@ -55,11 +64,25 @@ fn main() {
         .unwrap();
     frame.finish().unwrap();
 
-    let _ = event_loop.run(move |event, window_target| match event {
+    let _ = event_loop.run(move |event, window_target| {
+        handle_event(event, window_target);
+    });
+}
+
+fn handle_event(event: Event<()>, window_target: &EventLoopWindowTarget<()>) {
+    match event {
         winit::event::Event::WindowEvent { event, .. } => match event {
+            winit::event::WindowEvent::KeyboardInput { event, .. } => {
+                match (event.physical_key, event.state) {
+                    (PhysicalKey::Code(winit::keyboard::KeyCode::KeyQ), ElementState::Pressed) => {
+                        window_target.exit();
+                    }
+                    _ => {}
+                }
+            }
             winit::event::WindowEvent::CloseRequested => window_target.exit(),
             _ => {}
         },
         _ => {}
-    });
+    }
 }
